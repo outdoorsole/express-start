@@ -11,15 +11,12 @@ app.set('view engine', 'handlebars');
 
 // Requests to the root URL (/) or route.
 app.get('/', function (req, res) {
-  res.render('home');
-});
-
-app.get('/todos', function(req, res) {
   var todos = [
     { body: "take out the trash", completed: false },
     { body: "do the laundry", completed: true }
   ]
-  res.json(todos);
+
+  res.render('home', { todos: todos });
 });
 
 // Starts a server and listens on port 3000 for connections.
