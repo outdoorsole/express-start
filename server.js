@@ -1,12 +1,17 @@
 // NODE MODULE
 var express = require('express');
+var exphbs = require('express-handlebars');
 
 // INSTANCE
 var app = express();
 
+// MIDDLEWARE
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
 // Requests to the root URL (/) or route.
-app.get('/', function(req, res) {
-  res.send('Hello World!');
+app.get('/', function (req, res) {
+  res.render('home');
 });
 
 app.get('/todos', function(req, res) {
