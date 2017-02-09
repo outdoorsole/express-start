@@ -1,4 +1,4 @@
-// NODE MODULE
+// NODE MODULES
 var express = require('express');
 var exphbs = require('express-handlebars');
 
@@ -23,6 +23,11 @@ app.get('/', function (req, res) {
 });
 
 // TODOS SHOW
+app.get('/todos/:id', function(req, res) {
+  var todo = todos[req.params.id]
+  res.render('todo-show', { todo: todo });
+});
+
 // TODOS CREATE
 // TODOS DELETE
 // TODOS UPDATE
