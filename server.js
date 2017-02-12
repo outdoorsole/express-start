@@ -2,6 +2,7 @@
 var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
 // INSTANCE
 var app = express();
@@ -18,6 +19,12 @@ app.use(bodyParser.json());
 
 // send static files
 app.use(express.static('public'));
+
+// connect mongoose to MongoDB
+mongoose.connect('mongodb://localhost/express-start');
+
+// MODELS
+var Todo = require('./models/todo.js');
 
 // DATA
 var todos = [
@@ -41,8 +48,9 @@ app.get('/todos/:id', function(req, res) {
 // 3) TODOS CREATE
 app.post('/todos', function(req, res) {
   var todo = req.body;
-  todos.push(todo);
-  res.status(200).json(todo);
+  Todo.create(todo, function(err, todo) {
+    res.status(200).json(todo);
+  })
 });
 
 // TODOS DELETE
