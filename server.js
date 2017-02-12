@@ -16,6 +16,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 
+// send static files
+app.use(express.static('public'));
+
 // DATA
 var todos = [
   { body: "take out the trash", completed: false },
@@ -29,15 +32,14 @@ app.get('/', function (req, res) {
   res.render('home', { todos: todos });
 });
 
-// TODOS SHOW
+// 2) TODOS SHOW
 app.get('/todos/:id', function(req, res) {
-  var todo = todos[req.params.id]
+  var todo = todos[req.params.id];
   res.render('todo-show', { todo: todo });
 });
 
-// TODOS CREATE
+// 3) TODOS CREATE
 app.post('/todos', function(req, res) {
-  console.log('This is req.body: ', req.body);
   var todo = req.body;
   todos.push(todo);
   res.status(200).json(todo);
