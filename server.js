@@ -26,23 +26,19 @@ mongoose.connect('mongodb://localhost/express-start');
 // MODELS
 var Todo = require('./models/todo.js');
 
-// DATA
-var todos = [
-  { body: "take out the trash", completed: false },
-  { body: "do the laundry", completed: true },
-  { body: "make a screencast", completed: false }
-];
-
 // CORE ROUTES
 // 1) TODOS INDEX: Requests to root URL (/) or route.
 app.get('/', function (req, res) {
-  res.render('home', { todos: todos });
+  Todo.find().exec(function (err, todos) {
+    res.render('home', { todos: todos });
+  });
 });
 
 // 2) TODOS SHOW
 app.get('/todos/:id', function(req, res) {
-  var todo = todos[req.params.id];
-  res.render('todo-show', { todo: todo });
+  Todo.findById(req.params.id).exec(function (err, todos) {
+    res.render('todo-show', { todo: todo });
+  });
 });
 
 // 3) TODOS CREATE
