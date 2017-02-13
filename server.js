@@ -36,7 +36,7 @@ app.get('/', function (req, res) {
 
 // 2) TODOS SHOW
 app.get('/todos/:id', function(req, res) {
-  Todo.findById(req.params.id).exec(function (err, todos) {
+  Todo.findById(req.params.id).exec(function (err, todo) {
     res.render('todo-show', { todo: todo });
   });
 });
@@ -50,6 +50,13 @@ app.post('/todos', function(req, res) {
 });
 
 // TODOS DELETE
+app.delete('/todos/:id', function (req, res) {
+  Todo.findById(req.params.id).exec(function (err, todo) {
+    todo.remove();
+    res.status(200).json({});
+  });
+});
+
 // TODOS UPDATE
 // TODOS EDIT
 // TODOS NEW

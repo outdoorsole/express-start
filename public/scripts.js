@@ -19,4 +19,20 @@ $(document).ready(function() {
     })
   });
 
+  $('#remove-todo').click(function (e) {
+    e.preventDefault();
+
+    var todo = $(this);
+    var todoId = $(this).data('id');
+
+    console.log(todoId);
+
+    $.ajax({
+      url: '/todos/' + todoId,
+      type: 'DELETE',
+      success: function(data) {
+        todo.parent().remove();
+      }
+    })
+  });
 });

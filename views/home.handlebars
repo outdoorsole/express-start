@@ -8,6 +8,11 @@
 
 <ul class="todo-list">
     {{#each todos}}
-    <li>{{this.body}}</li>
+    <li>
+        <a href="/todos/{{this._id}}">
+            {{this.body}}
+        </a>
+        <div id="remove-todo" data-id="{{this._id}}">Remove</div>
+    </li>
     {{/each}}
 </ul>
