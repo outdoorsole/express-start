@@ -28,7 +28,16 @@ var Todo = require('./models/todo.js');
 
 app.get('/signup', function (req, res) {
   res.render('signup');
-})
+});
+
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+
+app.post('/users', function (req, res) {
+  console.log(req.body);
+  res.json({msg: "Got it!"});
+});
 
 // CORE ROUTES
 // 1) TODOS INDEX: Requests to root URL (/) or route.
