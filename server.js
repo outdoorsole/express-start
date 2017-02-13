@@ -26,6 +26,10 @@ mongoose.connect('mongodb://localhost/express-start');
 // MODELS
 var Todo = require('./models/todo.js');
 
+app.get('/signup', function (req, res) {
+  res.render('signup');
+})
+
 // CORE ROUTES
 // 1) TODOS INDEX: Requests to root URL (/) or route.
 app.get('/', function (req, res) {
