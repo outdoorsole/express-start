@@ -1,0 +1,7 @@
+body {
+  background: #FDFDFD;
+}
+
+.remove-todo {
+  cursor: pointer;
+}
