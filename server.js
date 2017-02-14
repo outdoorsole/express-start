@@ -3,6 +3,7 @@ var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
 
 // INSTANCE
 var app = express();
@@ -19,6 +20,14 @@ app.use(bodyParser.json());
 
 // send static files
 app.use(express.static('public'));
+
+// set session options
+app.use(session({
+  saveUninitialized: true,
+  resave: true,
+  secret: 'SuperSecretCookie',
+  cookie: { maxAge: 600000 }
+}));
 
 // connect mongoose to MongoDB
 mongoose.connect('mongodb://localhost/express-start');
@@ -38,8 +47,14 @@ app.get('/login', function (req, res) {
 app.post('/users', function (req, res) {
   var user = req.body;
   User.createSecure(user.email, user.password, function (err, user) {
+    req.session.userId = user._id;
+    req.session.user = user;
     res.json({ user: user, msg: "User created successfully!" });
   });
+});
+
+app.get('/current-user', function (req, res) {
+  res.json({ user: req.session.user });
 });
 
 // CORE ROUTES
