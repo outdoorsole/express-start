@@ -14,7 +14,7 @@ $(document).ready(function() {
 
   checkAuth();
 
-  $("#signup-form").submit(function(e) {
+  $('#signup-form').submit(function(e) {
     e.preventDefault();
     var user = $(this).serialize();
 
@@ -23,5 +23,14 @@ $(document).ready(function() {
       console.log(data);
       $('.logged-in').show();
     });
+  });
+
+  $('#logout').click(function(e) {
+    e.preventDefault();
+    $.get('/logout', function(data) {
+      console.log(data.msg);
+      $('.not-logged-in').show();
+      $('.logged-in').hide();
+    })
   });
 });

@@ -44,6 +44,13 @@ app.get('/login', function (req, res) {
   res.render('login');
 });
 
+app.get('/logout', function (req, res) {
+  req.session.userId = null;
+  req.session.user = null;
+
+  res.json({ msg: "User logged out successfully!" });
+});
+
 app.post('/users', function (req, res) {
   var user = req.body;
   User.createSecure(user.email, user.password, function (err, user) {
