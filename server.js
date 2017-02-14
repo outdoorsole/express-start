@@ -25,6 +25,7 @@ mongoose.connect('mongodb://localhost/express-start');
 
 // MODELS
 var Todo = require('./models/todo.js');
+var User = require('./models/user.js');
 
 app.get('/signup', function (req, res) {
   res.render('signup');
@@ -35,8 +36,10 @@ app.get('/login', function (req, res) {
 });
 
 app.post('/users', function (req, res) {
-  console.log(req.body);
-  res.json({msg: "Got it!"});
+  var user = req.body;
+  User.createSecure(user.email, user.password, function (err, user) {
+    res.json({ user: user, msg: "User created successfully!" });
+  });
 });
 
 // CORE ROUTES
