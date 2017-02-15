@@ -20,6 +20,7 @@ $(document).ready(function() {
 
     $.post('/users', user, function (data) {
       checkAuth();
+      window.location.href = "/"
     });
   });
 
@@ -29,6 +30,7 @@ $(document).ready(function() {
 
     $.post('/login', user, function (data) {
       checkAuth();
+      window.location.href = "/"
     });
   });
 
