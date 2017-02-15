@@ -3,6 +3,7 @@ var express = require('express');
 var exphbs = require('express-handlebars');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
 
 // INSTANCE
 var app = express();
@@ -20,11 +21,56 @@ app.use(bodyParser.json());
 // send static files
 app.use(express.static('public'));
 
+// set session options
+app.use(session({
+  saveUninitialized: true,
+  resave: true,
+  secret: 'SuperSecretCookie',
+  cookie: { maxAge: 600000 }
+}));
+
 // connect mongoose to MongoDB
 mongoose.connect('mongodb://localhost/express-start');
 
 // MODELS
 var Todo = require('./models/todo.js');
+var User = require('./models/user.js');
+
+app.get('/signup', function (req, res) {
+  res.render('signup');
+});
+
+app.get('/login', function (req, res) {
+  res.render('login');
+});
+
+app.post('/login', function (req, res) {
+  var user = req.body;
+  User.authenticate(user.email, user.password, function (err, user) {
+    if (err) { console.log("there was an err: ", err )}
+    // if logged in, set session user
+    req.session.user = user;
+    res.json(user);
+  })
+});
+
+app.get('/logout', function (req, res) {
+  req.session.user = null;
+
+  res.json({ msg: "User logged out successfully!" });
+});
+
+app.post('/users', function (req, res) {
+  var user = req.body;
+  User.createSecure(user.email, user.password, function (err, user) {
+    req.session.user = user;
+    res.json({ user: user, msg: "User created successfully!" });
+  });
+});
+
+app.get('/current-user', function (req, res) {
+  res.json({ user: req.session.user });
+});
 
 // CORE ROUTES
 // 1) TODOS INDEX: Requests to root URL (/) or route.
